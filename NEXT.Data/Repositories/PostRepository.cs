@@ -44,12 +44,15 @@ namespace NEXT.Data.Repositories
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
+            var post = Posts.Update(entity);
             var existingPost = await Posts.FindAsync(entity.Id);
             if (existingPost is null)
                 return null;
             _db.Entry(existingPost).CurrentValues.SetValues(entity);
             await _db.SaveChangesAsync();
             return existingPost;
+
+            return post.Entity;
         }
     }
 }
